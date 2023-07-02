@@ -12,11 +12,9 @@ class Road{
     this.bottom = infinity;
   }
   getLaneCenter(laneIndex){
-    if(laneIndex>= this.laneCount){
-      throw new Error(`bcz laneIndex=${laneIndex} >= laneCount=${this.laneCount}`)
-    }
     const laneWidth = this.width/this.laneCount;
-    return this.left + laneWidth/2 + laneIndex*laneWidth;
+    return this.left + laneWidth/2 + 
+      Math.min(laneIndex, this.laneCount-1)*laneWidth;
   }
   
   
