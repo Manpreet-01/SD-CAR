@@ -10,15 +10,29 @@ class Car{
     this.acceleration = 0.2;
     this.friction = 0.05;
     this.angle = 0;
+    this.damaged = false;
 
     this.sensors = new Sensors(this);
     this.controls = new Controls();
   }
 
   update(roadBorders){
-    this.#move();
+    if(!this.damaged){
+      this.#move();
+    }
     this.polygon = this.#createPolygon();
+    this.damaged = this.#assessDamage(roadBorders);
     this.sensors.update(roadBorders);
+  }
+  
+  #assessDamage(roadBorders){
+    for(let i=0; i<roadBorders.length; i++){
+      if(polysIntersect(this.polygon, roadBorders[i])){
+        return true;
+      }
+    }
+    
+    return false;
   }
   
   #createPolygon(){
@@ -89,6 +103,11 @@ class Car{
   }
     
   draw(ctx){
+    if(this.damaged){
+      ctx.fillStyle = "gray";
+    }else{
+      ctx.fillStyle = "black"
+    }
     ctx.beginPath();
     ctx.moveTo(
       this.polygon[0].x,
