@@ -13,14 +13,13 @@ class Car{
 
     this.sensors = new Sensors(this);
     this.controls = new Controls();
+  }
 
-  }
-    
-  update(){
+  update(roadBorders){
     this.#move();
-    this.sensors.update();
+    this.sensors.update(roadBorders);
   }
-    
+
   #move(){
     if(this.controls.forward){
       this.speed += this.acceleration;
@@ -71,11 +70,11 @@ class Car{
       -this.height/2, 
       this.width,
       this.height,
-    )
+    );
     ctx.fill();
     ctx.restore();
 		
-		this.sensors.draw(ctx);
+    this.sensors.draw(ctx);
   }
 }
 

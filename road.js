@@ -53,6 +53,6 @@ class Road{
       ctx.moveTo(border[0].x, border[0].y);  //1st point of border
       ctx.lineTo(border[1].x, border[1].y);  //2nd point of border
       ctx.stroke();
-    })
+    });
   }
 }
