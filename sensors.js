@@ -91,7 +91,6 @@ class Sensors{
       
       ctx.stroke();
       
-      
       ctx.beginPath();
       ctx.lineWidth = 2;
       ctx.strokeStyle = "black";
