@@ -11,7 +11,9 @@ class Car{
     this.friction = 0.05;
     this.angle = 0;
     this.damaged = false;
+    
     this.controlType = controlType;
+    this.useBrain = controlType == "AI";
     
     if(controlType != "DUMMY"){
       this.sensors = new Sensors(this);
@@ -31,7 +33,7 @@ class Car{
       this.polygon = this.#createPolygon();
       this.damaged = this.#assessDamage(roadBorders, traffic);
     }else{
-      this.sensors = null;    // removes sensors on damaged 451
+      // this.sensors = null;    // removes sensors on damaged 451
     }
     if(this.sensors){
       this.sensors.update(roadBorders, traffic);
@@ -44,7 +46,12 @@ class Car{
         this.brain,
       );
       
-      console.log(outputs);
+      if(this.useBrain){
+        this.controls.forward = outputs[0];
+        this.controls.left = outputs[1];
+        this.controls.right = outputs[2];
+        this.controls.reverse = outputs[3];
+      }
     }
   }
   
