@@ -5,7 +5,7 @@ carCanvas.width = 200;
 
 const networkCanvas = document.getElementById("networkCanvas");
 networkCanvas.height = window.innerHeight;
-networkCanvas.width = 800;
+networkCanvas.width = 300;
 
 const carCtx = carCanvas.getContext("2d");
 const networkCtx = networkCanvas.getContext("2d");
@@ -14,6 +14,13 @@ const road = new Road(carCanvas.width/2, carCanvas.width*0.9); //x, width, laneC
 
 const N = 20;
 const cars = generateCars(N);
+let bestCar = cars[0];
+
+if(localStorage.getItem("bestBrain")){
+  bestCar.brain = JSON.parse(
+    localStorage.getItem("bestBrain")
+  );
+}
 
 const traffic = [
   new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2),
@@ -21,6 +28,18 @@ const traffic = [
 ];
 
 animate();
+
+function save(){
+  localStorage.setItem(
+    "bestBrain",
+    JSON.stringify(bestCar.brain),
+  );
+}
+
+function discard(){
+  localStorage.removeItem("bestBrain");
+}
+
 
 function generateCars(N){
   const cars = [];
@@ -47,7 +66,7 @@ function animate(time){
     cars[i].update(road.borders, traffic);
   }
   
-  const bestCar = cars.find(
+  bestCar = cars.find(
     c=>c.y==Math.min(
       ...cars.map(c=>c.y)
     )
